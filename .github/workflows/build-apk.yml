@@ -27,13 +27,6 @@ jobs:
     - name: Set up Android SDK
       uses: android-actions/setup-android@v3
 
-    - name: Install Gradle (if wrapper not committed)
-      run: |
-        if [ ! -f android/FarooqSmsBridge/gradlew ]; then
-          sudo apt-get update
-          sudo apt-get install -y gradle
-        fi
-
     - name: Generate Gradle wrapper if missing
       run: |
         if [ ! -f android/FarooqSmsBridge/gradlew ]; then
