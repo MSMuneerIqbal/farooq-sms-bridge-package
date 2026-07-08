@@ -1,0 +1,40 @@
+// Add these models to your Prisma schema, then run migration.
+
+model SmsOutbox {
+  id              String   @id @default(cuid())
+  patientId       String?
+  phoneNumber     String
+  messageBody     String
+  status          String   @default("PENDING") // PENDING, SENDING, SENT, DELIVERED, FAILED, CANCELLED
+  provider        String   @default("ANDROID_PHONE")
+  deviceId        String?
+  selectedSimId   Int?
+  errorMessage    String?
+  retryCount      Int      @default(0)
+  createdByUserId String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  sentAt          DateTime?
+  deliveredAt     DateTime?
+}
+
+model SmsBridgeDevice {
+  id              String   @id @default(cuid())
+  deviceName      String
+  deviceSecretHash String
+  selectedSubId   Int?
+  selectedSimLabel String?
+  status          String   @default("OFFLINE") // ONLINE, OFFLINE, DISABLED
+  lastSeenAt      DateTime?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model SmsAuditLog {
+  id        String   @id @default(cuid())
+  smsId     String?
+  deviceId  String?
+  action    String
+  message   String?
+  createdAt DateTime @default(now())
+}
